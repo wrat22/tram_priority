@@ -9,8 +9,8 @@ from scripts.read_csv_file import read_csv_file
 from scripts.priority_analysis import (
     priority_analysis_with_stop,
     priority_analysis,
-    time_arrival_analysis,
 )
+from scripts.time_arrival import time_arrival_analysis
 from scripts.sip_effectiveness_analysis import sip_effectiveness
 from scripts.mean_waiting_time import mean_waiting
 from scripts.average_green_signal import mean_green

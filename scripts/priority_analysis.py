@@ -11,9 +11,7 @@ def signal_group_analysis(state):
         return [False, False, True]
 
 
-def det_before_cross_analysis(
-    state, green_signal, red_signal, amber_signal
-):
+def det_before_cross_analysis(state, green_signal, red_signal, amber_signal):
     if state == 1:
         if red_signal or amber_signal:
             return False
@@ -39,17 +37,10 @@ def priority_analysis(data, singal_group, det_before_cross):
             count_trams_before_cross += 1
             trams_before_cross = True
         if red_signal or amber_signal:
-            if (
-                trams_before_cross
-                and count_trams_before_cross > 0
-            ):
+            if trams_before_cross and count_trams_before_cross > 0:
                 count_priority += 1
                 count_trams_before_cross -= 1
-        elif (
-            green_signal
-            and trams_before_cross
-            and count_trams_before_cross > 0
-        ):
+        elif green_signal and trams_before_cross and count_trams_before_cross > 0:
             count_no_priority += 1
             count_trams_before_cross -= 1
 

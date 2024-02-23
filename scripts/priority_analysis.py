@@ -2,29 +2,6 @@ import pandas as pd
 from datetime import timedelta, datetime
 
 
-def priority_analysis(data, singal_group, det_before_cross, det_logout):
-    df = pd.DataFrame(data)
-
-    licznik_bez_priorytetu, licznik_z_priorytetem = 0, 0
-
-    for index, row in df.iterrows():
-        if row["Urzadzenie"] == singal_group:
-            (
-                sygnal_zezwalajacy,
-                sygnal_zabraniajacy,
-                sygnal_kocie,
-            ) = signal_group_analysis(row["Stan"])
-        if row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
-            if det_before_cross_analysis(
-                row["Stan"], sygnal_zezwalajacy, sygnal_zabraniajacy, sygnal_kocie
-            ):
-                licznik_z_priorytetem += 1
-            else:
-                licznik_bez_priorytetu += 1
-    print(f"Tramwaje bez priorytetu: {licznik_bez_priorytetu}")
-    print(f"Tramwaje z priorytetem: {licznik_z_priorytetem}")
-
-
 def signal_group_analysis(stan):
     if stan == 3:
         return [True, False, False]

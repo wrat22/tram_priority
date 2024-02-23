@@ -1,5 +1,5 @@
 from priority_analysis import signal_group_analysis, det_before_cross_analysis, calculate_time_at_stop, calculate_time_arrival
-from datetime import timedelta, datetime
+from datetime import datetime
 
 def test_valid_singal_group():
     assert signal_group_analysis(3) == [True, False, False]

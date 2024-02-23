@@ -45,13 +45,9 @@ def mean_waiting_with_detector(data, detector, signal_group):
             total_time_waiting,
         )
 
-    mean_time_waiting = total_time_waiting / len(
-        time_waiting_list
-    )
+    mean_time_waiting = total_time_waiting / len(time_waiting_list)
     print(time_waiting_list)
-    print(
-        f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}"
-    )
+    print(f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}")
 
 
 def mean_waiting_without_detector(data, signal_group):
@@ -80,13 +76,9 @@ def mean_waiting_without_detector(data, signal_group):
             total_time_waiting,
         )
 
-    mean_time_waiting = total_time_waiting / len(
-        time_waiting_list
-    )
+    mean_time_waiting = total_time_waiting / len(time_waiting_list)
     print(time_waiting_list)
-    print(
-        f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}"
-    )
+    print(f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}")
 
 
 def process_time_waiting(
@@ -96,12 +88,12 @@ def process_time_waiting(
     total_time_waiting,
 ):
     if registration_time != 0 and green_on_time != 0:
-        time_distinction = (
+        time_subtraction = (
             datetime.combine(datetime.min, green_on_time)
             - datetime.combine(datetime.min, registration_time)
         ).total_seconds()
-        time_waiting_list.append(time_distinction)
-        total_time_waiting += time_distinction
+        time_waiting_list.append(time_subtraction)
+        total_time_waiting += time_subtraction
         registration_time, green_on_time = 0, 0
     return (
         registration_time,

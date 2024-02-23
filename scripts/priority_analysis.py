@@ -2,10 +2,6 @@ import pandas as pd
 from datetime import timedelta, datetime
 
 
-def main():
-    ...
-
-
 def priority_analysis(data, singal_group, det_before_cross, det_logout):
     df = pd.DataFrame(data)
 

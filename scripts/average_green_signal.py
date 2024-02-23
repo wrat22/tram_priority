@@ -4,25 +4,25 @@ from datetime import datetime
 
 def mean_green(data, signal_group):
     df = pd.DataFrame(data)
-    czas_zoltego, czas_zielonego = 0, 0
-    green_light = False
+    amber_time, green_time = 0, 0
+    green_signal = False
     time_waiting_list = []
 
     for index, row in df.iterrows():
         if row["Urzadzenie"] == signal_group:
             if row["Stan"] == 3:
-                czas_zielonego = row["Czas"]
-                green_light = True
-            elif row["Stan"] == 0 and green_light == True:
-                czas_zoltego = row["Czas"]
-                green_light = False
-        if czas_zielonego != 0 and czas_zoltego != 0:
-            roznica = (
-                datetime.combine(datetime.min, czas_zoltego)
-                - datetime.combine(datetime.min, czas_zielonego)
+                green_time = row["Czas"]
+                green_signal = True
+            elif row["Stan"] == 0 and green_signal == True:
+                amber_time = row["Czas"]
+                green_signal = False
+        if green_time != 0 and amber_time != 0:
+            time_distinction = (
+                datetime.combine(datetime.min, amber_time)
+                - datetime.combine(datetime.min, green_time)
             ).total_seconds()
-            time_waiting_list.append(roznica)
-            czas_zielonego, czas_zoltego = 0, 0
+            time_waiting_list.append(time_distinction)
+            green_time, amber_time = 0, 0
 
     print(time_waiting_list)
     average_time_waiting = round(sum(time_waiting_list) / len(time_waiting_list), 0)

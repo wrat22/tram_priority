@@ -22,18 +22,18 @@ sys.path.insert(0, "C:/Users/gural/tram_priority/modules")
 def main():
     option = get_option()
     if option == "1":
-        badanie_priorytetu()
+        priority_research()
     elif option == "2":
-        badanie_czasu_dojazdu()
+        time_arrival_analysis()
     elif option == "3":
-        badanie_skutecznosci_sip()
+        sip_research()
     elif option == "4":
-        badanie_sredniego_czasu_oczekiwania()
+        analyse_mean_time_waiting()
     elif option == "5":
-        badanie_sredniej_dlugosci_zielonego()
+        analyse_average_green()
 
 
-def badanie_priorytetu():
+def priority_research():
     data = read_csv_file()
     signal_group, det_before_cross, det_logout, tram_stop = validate_tram_priority()
     if tram_stop:
@@ -42,25 +42,25 @@ def badanie_priorytetu():
         priority_analysis(data, signal_group, det_before_cross)
 
 
-def badanie_czasu_dojazdu():
+def time_arrival_analysis():
     data = read_csv_file()
     det_login, det_update, det_before_cross = validate_time_arrival()
     time_arrival_analysis(det_login, det_update, det_before_cross)
 
 
-def badanie_skutecznosci_sip():
+def sip_research():
     data = read_csv_file()
     sip_det, det_before_cross = validate_sip_effectiveness()
     sip_effectiveness(data, sip_det, det_before_cross)
 
 
-def badanie_sredniego_czasu_oczekiwania():
+def analyse_mean_time_waiting():
     data = read_csv_file()
     signal_group, detector = validate_mean_time_waiting()
     mean_waiting(data, detector, signal_group)
 
 
-def badanie_sredniej_dlugosci_zielonego():
+def analyse_average_green():
     data = read_csv_file()
     signal_group = input("Jak nazywa się badana grupa sygnałowa? ").upper()
     mean_green(data, signal_group)

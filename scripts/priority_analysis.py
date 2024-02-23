@@ -82,8 +82,8 @@ def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout
 
 
 def calculate_time_at_stop(time1, time2):
-    delta_czasu = timedelta(
+    helper_time = timedelta(
         hours=time2.hour, minutes=time2.minute, seconds=time2.second
     ) - timedelta(hours=time1.hour, minutes=time1.minute, seconds=time1.second)
-    nowy_czas = (timedelta() + delta_czasu).total_seconds()
-    return nowy_czas
+    calculated_time = (timedelta() + helper_time).total_seconds()
+    return calculated_time

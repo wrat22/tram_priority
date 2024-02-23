@@ -20,16 +20,16 @@ sys.path.insert(0, "C:/Users/gural/tram_priority/modules")
 
 
 def main():
-    opcja = get_option()
-    if opcja == "1":
+    option = get_option()
+    if option == "1":
         badanie_priorytetu()
-    elif opcja == "2":
+    elif option == "2":
         badanie_czasu_dojazdu()
-    elif opcja == "3":
+    elif option == "3":
         badanie_skutecznosci_sip()
-    elif opcja == "4":
+    elif option == "4":
         badanie_sredniego_czasu_oczekiwania()
-    elif opcja == "5":
+    elif option == "5":
         badanie_sredniej_dlugosci_zielonego()
 
 

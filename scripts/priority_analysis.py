@@ -2,22 +2,22 @@ import pandas as pd
 from datetime import timedelta, datetime
 
 
-def signal_group_analysis(stan):
-    if stan == 3:
+def signal_group_analysis(state):
+    if state == 3:
         return [True, False, False]
-    if stan == 1:
+    if state == 1:
         return [False, True, False]
-    if stan == 0 or stan == 2:
+    if state == 0 or state == 2:
         return [False, False, True]
 
 
 def det_before_cross_analysis(
-    stan, sygnal_zezwalajacy, sygnal_zabraniajacy, sygnal_kocie
+    state, green_signal, red_signal, amber_signal
 ):
-    if stan == 1:
-        if sygnal_zabraniajacy or sygnal_kocie:
+    if state == 1:
+        if red_signal or amber_signal:
             return False
-        elif sygnal_zezwalajacy:
+        elif green_signal:
             return True
 
 

@@ -62,7 +62,7 @@ def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout
 
     TIME_FOR_STOP = 30
     time1, time2 = 0, 0
-    licznik_bez_priorytetu, licznik_z_priorytetem = 0, 0
+    count_priority, count_no_priority = 0, 0
 
     for _, row in df.iterrows():
         if row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
@@ -72,13 +72,13 @@ def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout
         if time1 != 0 and time2 != 0:
             time_at_stop = calculate_time_at_stop(time1, time2)
             if time_at_stop > TIME_FOR_STOP:
-                licznik_bez_priorytetu += 1
+                count_priority += 1
             else:
-                licznik_z_priorytetem += 1
+                count_no_priority += 1
             time1, time2 = 0, 0
 
-    print(f"Tramwaje bez priorytetu: {licznik_bez_priorytetu}")
-    print(f"Tramwaje z priorytetem: {licznik_z_priorytetem}")
+    print(f"Tramwaje bez priorytetu: {count_priority}")
+    print(f"Tramwaje z priorytetem: {count_no_priority}")
 
 
 def calculate_time_at_stop(time1, time2):

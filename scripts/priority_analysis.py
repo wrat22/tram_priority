@@ -21,7 +21,7 @@ def det_before_cross_analysis(
             return True
 
 
-def priority_analysis(data, singal_group, det_before_cross, det_logout):
+def priority_analysis(data, singal_group, det_before_cross):
     df = pd.DataFrame(data)
 
     count_priority, count_no_priority = 0, 0

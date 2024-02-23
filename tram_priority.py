@@ -39,7 +39,7 @@ def badanie_priorytetu():
     if tram_stop:
         priority_analysis_with_stop(data, signal_group, det_before_cross, det_logout)
     else:
-        priority_analysis(data, signal_group, det_before_cross, det_logout)
+        priority_analysis(data, signal_group, det_before_cross)
 
 
 def badanie_czasu_dojazdu():

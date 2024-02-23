@@ -52,21 +52,21 @@ def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout
     df = pd.DataFrame(data)
 
     TIME_FOR_STOP = 30
-    time1, time2 = 0, 0
+    login_time, logout_time = 0, 0
     count_priority, count_no_priority = 0, 0
 
     for _, row in df.iterrows():
         if row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
-            time1 = row["Czas"]
+            login_time = row["Czas"]
         elif row["Urzadzenie"] == det_logout and row["Stan"] == 1:
-            time2 = row["Czas"]
-        if time1 != 0 and time2 != 0:
-            time_at_stop = calculate_time_at_stop(time1, time2)
+            logout_time = row["Czas"]
+        if login_time != 0 and logout_time != 0:
+            time_at_stop = calculate_time_at_stop(login_time, logout_time)
             if time_at_stop > TIME_FOR_STOP:
                 count_priority += 1
             else:
                 count_no_priority += 1
-            time1, time2 = 0, 0
+            login_time, logout_time = 0, 0
 
     print(f"Tramwaje bez priorytetu: {count_priority}")
     print(f"Tramwaje z priorytetem: {count_no_priority}")

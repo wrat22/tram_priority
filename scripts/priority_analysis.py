@@ -24,37 +24,37 @@ def det_before_cross_analysis(
 def priority_analysis(data, singal_group, det_before_cross, det_logout):
     df = pd.DataFrame(data)
 
-    licznik_bez_priorytetu, licznik_z_priorytetem = 0, 0
-    licznik_tramwajow_przed_skrzyzowaniem = 0
-    tramwaj_przed_skrzyzowaniem = False
+    count_priority, count_no_priority = 0, 0
+    count_trams_before_cross = 0
+    trams_before_cross = False
 
     for _, row in df.iterrows():
         if row["Urzadzenie"] == singal_group:
             (
-                sygnal_zezwalajacy,
-                sygnal_zabraniajacy,
-                sygnal_kocie,
+                green_signal,
+                red_signal,
+                amber_signal,
             ) = signal_group_analysis(row["Stan"])
         elif row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
-            licznik_tramwajow_przed_skrzyzowaniem += 1
-            tramwaj_przed_skrzyzowaniem = True
-        if sygnal_zabraniajacy or sygnal_kocie:
+            count_trams_before_cross += 1
+            trams_before_cross = True
+        if red_signal or amber_signal:
             if (
-                tramwaj_przed_skrzyzowaniem
-                and licznik_tramwajow_przed_skrzyzowaniem > 0
+                trams_before_cross
+                and count_trams_before_cross > 0
             ):
-                licznik_bez_priorytetu += 1
-                licznik_tramwajow_przed_skrzyzowaniem -= 1
+                count_priority += 1
+                count_trams_before_cross -= 1
         elif (
-            sygnal_zezwalajacy
-            and tramwaj_przed_skrzyzowaniem
-            and licznik_tramwajow_przed_skrzyzowaniem > 0
+            green_signal
+            and trams_before_cross
+            and count_trams_before_cross > 0
         ):
-            licznik_z_priorytetem += 1
-            licznik_tramwajow_przed_skrzyzowaniem -= 1
+            count_no_priority += 1
+            count_trams_before_cross -= 1
 
-    print(f"Tramwaje bez priorytetu: {licznik_bez_priorytetu}")
-    print(f"Tramwaje z priorytetem: {licznik_z_priorytetem}")
+    print(f"Tramwaje bez priorytetu: {count_priority}")
+    print(f"Tramwaje z priorytetem: {count_no_priority}")
 
 
 def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout):
@@ -182,7 +182,3 @@ def time_arrival_without_update(data, det_login, det_before_cross):
 def calculate_time_arrival_without_update(time1, time2):
     eta_time = (time2 - time1).total_seconds()
     return eta_time
-
-
-if __name__ == "__main__":
-    main()

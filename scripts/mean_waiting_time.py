@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import timedelta, datetime
+from datetime import datetime
 
 
 def mean_waiting(data, detector, signal_group):
@@ -11,101 +11,101 @@ def mean_waiting(data, detector, signal_group):
 
 def mean_waiting_with_detector(data, detector, signal_group):
     df = pd.DataFrame(data)
-    czas_zgloszenia, czas_wzbudzenia, sumaryczny_czas_oczekiwania = 0, 0, 0
-    lista_czasow_oczekiwania = []
-    oczekiwanie_na_zielony, sygnal_zielony = False, False
+    registration_time, green_on_time, total_time_waiting = 0, 0, 0
+    time_waiting_list = []
+    waiting_for_green, green_signal = False, False
 
     for index, row in df.iterrows():
         if (
             row["Urzadzenie"] in detector
             and row["Stan"] == 1
-            and not sygnal_zielony
-            and not oczekiwanie_na_zielony
+            and not green_signal
+            and not waiting_for_green
         ):
-            oczekiwanie_na_zielony = True
-            czas_zgloszenia = row["Czas"]
+            waiting_for_green = True
+            registration_time = row["Czas"]
         elif row["Urzadzenie"] == signal_group and row["Stan"] == 3:
-            sygnal_zielony = True
-            if oczekiwanie_na_zielony:
-                czas_wzbudzenia = row["Czas"]
-                oczekiwanie_na_zielony = False
+            green_signal = True
+            if waiting_for_green:
+                green_on_time = row["Czas"]
+                waiting_for_green = False
         elif row["Urzadzenie"] == signal_group and (
             row["Stan"] == 1 or row["Stan"] == 2
         ):
-            sygnal_zielony = False
+            green_signal = False
         (
-            czas_zgloszenia,
-            czas_wzbudzenia,
-            lista_czasow_oczekiwania,
-            sumaryczny_czas_oczekiwania,
+            registration_time,
+            green_on_time,
+            time_waiting_list,
+            total_time_waiting,
         ) = process_time_waiting(
-            czas_zgloszenia,
-            czas_wzbudzenia,
-            lista_czasow_oczekiwania,
-            sumaryczny_czas_oczekiwania,
+            registration_time,
+            green_on_time,
+            time_waiting_list,
+            total_time_waiting,
         )
 
-    sredni_czas_oczekiwania = sumaryczny_czas_oczekiwania / len(
-        lista_czasow_oczekiwania
+    mean_time_waiting = total_time_waiting / len(
+        time_waiting_list
     )
-    print(lista_czasow_oczekiwania)
+    print(time_waiting_list)
     print(
-        f"Średni czas oczekiwania na sygnał zielony wynosi: {sredni_czas_oczekiwania}"
+        f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}"
     )
 
 
 def mean_waiting_without_detector(data, signal_group):
     df = pd.DataFrame(data)
-    czas_zgloszenia, czas_wzbudzenia, sumaryczny_czas_oczekiwania = 0, 0, 0
-    lista_czasow_oczekiwania = []
-    oczekiwanie_na_zielony = False
+    registration_time, green_on_time, total_time_waiting = 0, 0, 0
+    time_waiting_list = []
+    waiting_for_green = False
 
     for index, row in df.iterrows():
         if row["Urzadzenie"] == signal_group:
-            if row["Stan"] == 3 and oczekiwanie_na_zielony:
-                czas_wzbudzenia = row["Czas"]
-                oczekiwanie_na_zielony = False
+            if row["Stan"] == 3 and waiting_for_green:
+                green_on_time = row["Czas"]
+                waiting_for_green = False
             elif row["Stan"] == 1:
-                czas_zgloszenia = row["Czas"]
-                oczekiwanie_na_zielony = True
+                registration_time = row["Czas"]
+                waiting_for_green = True
         (
-            czas_zgloszenia,
-            czas_wzbudzenia,
-            lista_czasow_oczekiwania,
-            sumaryczny_czas_oczekiwania,
+            registration_time,
+            green_on_time,
+            time_waiting_list,
+            total_time_waiting,
         ) = process_time_waiting(
-            czas_zgloszenia,
-            czas_wzbudzenia,
-            lista_czasow_oczekiwania,
-            sumaryczny_czas_oczekiwania,
+            registration_time,
+            green_on_time,
+            time_waiting_list,
+            total_time_waiting,
         )
 
-    sredni_czas_oczekiwania = sumaryczny_czas_oczekiwania / len(
-        lista_czasow_oczekiwania
+    mean_time_waiting = total_time_waiting / len(
+        time_waiting_list
     )
-    print(lista_czasow_oczekiwania)
+    print(time_waiting_list)
     print(
-        f"Średni czas oczekiwania na sygnał zielony wynosi: {sredni_czas_oczekiwania}"
+        f"Średni czas oczekiwania na sygnał zielony wynosi: {mean_time_waiting}"
     )
 
 
 def process_time_waiting(
-    czas_zgloszenia,
-    czas_wzbudzenia,
-    lista_czasow_oczekiwania,
-    sumaryczny_czas_oczekiwania,
+    registration_time,
+    green_on_time,
+    time_waiting_list,
+    total_time_waiting,
 ):
-    if czas_zgloszenia != 0 and czas_wzbudzenia != 0:
-        roznica = (
-            datetime.combine(datetime.min, czas_wzbudzenia)
-            - datetime.combine(datetime.min, czas_zgloszenia)
+    if registration_time != 0 and green_on_time != 0:
+        time_distinction = (
+            datetime.combine(datetime.min, green_on_time)
+            - datetime.combine(datetime.min, registration_time)
         ).total_seconds()
-        lista_czasow_oczekiwania.append(roznica)
-        sumaryczny_czas_oczekiwania += roznica
-        czas_zgloszenia, czas_wzbudzenia = 0, 0
+        time_waiting_list.append(time_distinction)
+        total_time_waiting += time_distinction
+        registration_time, green_on_time = 0, 0
     return (
-        czas_zgloszenia,
-        czas_wzbudzenia,
-        lista_czasow_oczekiwania,
-        sumaryczny_czas_oczekiwania,
+        registration_time,
+        green_on_time,
+        time_waiting_list,
+        total_time_waiting,
     )

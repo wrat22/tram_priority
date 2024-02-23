@@ -17,11 +17,11 @@ def mean_green(data, signal_group):
                 amber_time = row["Czas"]
                 green_signal = False
         if green_time != 0 and amber_time != 0:
-            time_distinction = (
+            time_subtraction = (
                 datetime.combine(datetime.min, amber_time)
                 - datetime.combine(datetime.min, green_time)
             ).total_seconds()
-            time_waiting_list.append(time_distinction)
+            time_waiting_list.append(time_subtraction)
             green_time, amber_time = 0, 0
 
     print(time_waiting_list)

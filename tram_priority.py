@@ -8,7 +8,7 @@ from scripts.menu import (
 from scripts.read_csv_file import read_csv_file
 from scripts.priority_analysis import (
     priority_analysis_with_stop,
-    priority_analysis_2,
+    priority_analysis,
     time_arrival_analysis,
 )
 from scripts.sip_effectiveness_analysis import sip_effectiveness
@@ -39,7 +39,7 @@ def badanie_priorytetu():
     if tram_stop:
         priority_analysis_with_stop(data, signal_group, det_before_cross, det_logout)
     else:
-        priority_analysis_2(data, signal_group, det_before_cross, det_logout)
+        priority_analysis(data, signal_group, det_before_cross, det_logout)
 
 
 def badanie_czasu_dojazdu():

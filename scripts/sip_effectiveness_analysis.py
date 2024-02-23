@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def sip_effectiveness(data, sip_det, det_before_cross):
     df = pd.DataFrame(data)
 
@@ -17,7 +18,6 @@ def sip_effectiveness(data, sip_det, det_before_cross):
             else:
                 count_sip_undetected += 1
                 undetected_list.append(row["Czas"])
-    
 
     print(f"Liczba wykrytych: {count_sip_detected}")
     print(f"Liczba niewykrytych: {count_sip_undetected}")

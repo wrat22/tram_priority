@@ -40,8 +40,9 @@ def priority_analysis(data, singal_group, det_before_cross):
             if count_trams_before_cross > 0:
                 count_no_priority += 1
                 count_trams_before_cross -= 1
-        elif green_signal and trams_before_cross and count_trams_before_cross > 0:
-            count_no_priority += 1
+                no_priority_list.append(row["Czas"])
+        elif green_signal and count_trams_before_cross > 0:
+            count_priority += 1
             count_trams_before_cross -= 1
 
     print(f"Tramwaje bez priorytetu: {count_priority}")

@@ -35,7 +35,6 @@ def priority_analysis(data, singal_group, det_before_cross):
             ) = signal_group_analysis(row["Stan"])
         elif row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
             count_trams_before_cross += 1
-            trams_before_cross = True
         if red_signal or amber_signal:
             if count_trams_before_cross > 0:
                 count_no_priority += 1
@@ -47,12 +46,13 @@ def priority_analysis(data, singal_group, det_before_cross):
 
     print(f"Tramwaje bez priorytetu: {count_priority}")
     print(f"Tramwaje z priorytetem: {count_no_priority}")
+    print(no_priority_list)
 
 
 def priority_analysis_with_stop(data, singal_group, det_before_cross, det_logout):
     df = pd.DataFrame(data)
 
-    TIME_FOR_STOP = 30
+    TIME_FOR_STOP = 35
     login_time, logout_time = 0, 0
     count_priority, count_no_priority = 0, 0
 

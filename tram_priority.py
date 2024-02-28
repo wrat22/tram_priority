@@ -24,7 +24,7 @@ def main():
     if option == "1":
         priority_research()
     elif option == "2":
-        time_arrival_analysis()
+        time_arrival()
     elif option == "3":
         sip_research()
     elif option == "4":
@@ -42,10 +42,10 @@ def priority_research():
         priority_analysis(data, signal_group, det_before_cross)
 
 
-def time_arrival_analysis():
+def time_arrival():
     data = read_csv_file()
     det_login, det_update, det_before_cross = validate_time_arrival()
-    time_arrival_analysis(det_login, det_update, det_before_cross)
+    time_arrival_analysis(data, det_login, det_update, det_before_cross)
 
 
 def sip_research():

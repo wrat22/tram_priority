@@ -12,7 +12,11 @@ def time_arrival_analysis(data, det_login, det_update, det_before_cross):
 def time_arrival_with_update(data, det_login, det_update, det_before_cross):
     df = pd.DataFrame(data)
     time1_1, time1_2, time1_3, time2_1, time2_2, time2_3 = 0, 0, 0, 0, 0, 0
-    time_arrival_dict = {}
+    time_arrival_dict = {
+        "Czas dojazdu": [],
+        "Zaktualizowany czas dojazdu": [],
+        "Różnica TD - TDupdate": []
+    }
 
     for _, row in df.iterrows():
         if row["Urzadzenie"] == det_login and row["Stan"] == 1:

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 def get_option():
     options = [
         "1. Sprawdź priorytet dla tramwaju",

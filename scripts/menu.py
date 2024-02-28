@@ -119,11 +119,11 @@ def validate_detector_for_time_waiting():
             return None
         else:
             print("Niepoprawna odpowiedź, proszę wprowadzić 'T' lub 'N'.")
-=======
+
 def menu():
     print("Podaj informacje dla kierunku jazdy")
     singal_group = input("Jak nazywa się grupa sygnałowa? ")
     det_before_cross = input("Jak nazywa się detektor przed skrzyżowaniem? ")
     det_logout = input("Jak nazywa się detektor za skrzyżowaniem / do wylogowania? ")
     return singal_group, det_before_cross, det_logout
->>>>>>> 7b781e851189fd52e6e9e7a350e842cb606759b6
+

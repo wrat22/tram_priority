@@ -5,9 +5,9 @@ from datetime import timedelta, datetime
 def signal_group_analysis(state):
     if state == 3:
         return [True, False, False]
-    if state == 1:
+    elif state == 1:
         return [False, True, False]
-    if state == 0 or state == 2:
+    else:
         return [False, False, True]
 
 
@@ -22,9 +22,9 @@ def det_before_cross_analysis(state, green_signal, red_signal, amber_signal):
 def priority_analysis(data, singal_group, det_before_cross):
     df = pd.DataFrame(data)
 
-    count_priority, count_no_priority = 0, 0
-    count_trams_before_cross = 0
-    trams_before_cross = False
+    count_priority, count_no_priority, count_trams_before_cross = 0, 0, 0
+    green_signal, red_signal, amber_signal = False, False, False
+    no_priority_list = []
 
     for _, row in df.iterrows():
         if row["Urzadzenie"] == singal_group:

@@ -21,19 +21,19 @@ def time_arrival_with_update(data, det_login, det_update, det_before_cross):
     for _, row in df.iterrows():
         if row["Urzadzenie"] == det_login and row["Stan"] == 1:
             if time1_1 == 0:
-                time1_1 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time1_1 = row["Czas"]
             elif time2_1 == 0:
-                time2_1 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time2_1 = row["Czas"]
         elif row["Urzadzenie"] == det_update and row["Stan"] == 1:
             if time1_2 == 0 and time1_1 != 0:
-                time1_2 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time1_2 = row["Czas"]
             elif time2_2 == 0 and time2_1 != 0:
-                time2_2 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time2_2 = row["Czas"]
         elif row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
             if time1_3 == 0 and time1_2 != 0 and time1_1 != 0:
-                time1_3 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time1_3 = row["Czas"]
             elif time2_3 == 0 and time2_2 != 0 and time2_1 != 0:
-                time2_3 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time2_3 = row["Czas"]
         if time1_1 != 0 and time1_2 != 0 and time1_3 != 0:
             (
                 eta,
@@ -59,9 +59,10 @@ def time_arrival_with_update(data, det_login, det_update, det_before_cross):
 
 
 def calculate_time_arrival(time1, time2, time3):
-    eta = (time3 - time1).total_seconds()
-    eta_updated = (time3 - time2).total_seconds()
-    eta_subtracted = (time2 - time1).total_seconds()
+    
+    eta = (datetime.combine(datetime.min, time3) - datetime.combine(datetime.min, time1)).total_seconds()
+    eta_updated = (datetime.combine(datetime.min, time3) - datetime.combine(datetime.min, time2)).total_seconds()
+    eta_subtracted = (datetime.combine(datetime.min, time2) - datetime.combine(datetime.min, time1)).total_seconds()
 
     return eta, eta_updated, eta_subtracted
 
@@ -74,14 +75,14 @@ def time_arrival_without_update(data, det_login, det_before_cross):
     for _, row in df.iterrows():
         if row["Urzadzenie"] == det_login and row["Stan"] == 1:
             if time1_1 == 0:
-                time1_1 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time1_1 = row["Czas"]
             elif time2_1 == 0:
-                time2_1 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time2_1 = row["Czas"]
         elif row["Urzadzenie"] == det_before_cross and row["Stan"] == 1:
             if time1_2 == 0 and time1_1 != 0:
-                time1_2 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time1_2 = row["Czas"]
             elif time2_2 == 0 and time2_1 != 0:
-                time2_2 = datetime.strptime(row["Czas"], "%H:%M:%S")
+                time2_2 = row["Czas"]
         if time1_1 != 0 and time1_2 != 0:
             time_arrival_list.append(calculate_time_arrival_no_update(time1_1, time1_2))
             time1_1, time1_2 = 0, 0
@@ -93,5 +94,5 @@ def time_arrival_without_update(data, det_login, det_before_cross):
 
 
 def calculate_time_arrival_no_update(time1, time2):
-    eta_time = (time2 - time1).total_seconds()
+    eta_time = (datetime.combine(datetime.min, time2) - datetime.combine(datetime.min, time1)).total_seconds()
     return eta_time
